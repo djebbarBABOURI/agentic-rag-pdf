@@ -4,6 +4,7 @@ import cors from "cors";
 import multer from "multer";
 import os from "node:os";
 import path from "node:path";
+import rateLimit from "express-rate-limit";
 import { unlink } from "node:fs/promises";
 import { runAgent } from "./agent.js";
 import { ingestData } from "./ingest.js";
@@ -19,7 +20,17 @@ import {
 const app = express();
 app.use(cors({ origin: process.env.CLIENT_ORIGIN ?? "http://localhost:5173" }));
 app.use(express.json({ limit: "100kb" }));
+const limiter = (limit) =>
+  rateLimit({
+    windowMs: 60_000,
+    limit,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: "Trop de requêtes, réessayez dans une minute." },
+  });
 
+app.use("/api/chat", limiter(20));
+app.use("/api/ingest", limiter(5));
 const upload = multer({
   storage: multer.diskStorage({
     destination: os.tmpdir(),
