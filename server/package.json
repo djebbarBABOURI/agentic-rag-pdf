@@ -9,8 +9,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write \"**/*.{js,json,md}\"",
-    "format:check": "prettier --check \"**/*.{js,json,md}\"",
-    "install:all": "npm install && npm --prefix server install --legacy-peer-deps && npm --prefix client install --legacy-peer-deps"
+    "format:check": "prettier --check \"**/*.{js,json,md}\""
   },
   "keywords": [],
   "author": "",
@@ -25,12 +24,12 @@
     "@langchain/pinecone": "^1.0.1",
     "@langchain/textsplitters": "^0.1.0",
     "@pinecone-database/pinecone": "^5.1.2",
-    "agentic-rag-video": "file:..",
     "cors": "^2.8.6",
     "dotenv": "^17.2.3",
     "express": "^4.18.2",
     "express-rate-limit": "^8.7.4",
     "langchain": "^1.2.16",
+    "mongodb": "^6.21.0",
     "multer": "^2.0.0",
     "pdf-parse": "^1.1.1",
     "zod": "^3.23.8"
