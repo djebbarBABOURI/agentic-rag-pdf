@@ -1,15 +1,22 @@
-import { ChatOllama } from "@langchain/ollama";
+// import { ChatOllama } from "@langchain/ollama";
 import { searchDocuments } from "./pinecone.js";
 import { formatContext } from "./tools.js";
 import { getHistory, appendExchange } from "./store.js";
 
-const model = new ChatOllama({
-  model: process.env.OLLAMA_MODEL ?? "qwen2.5:3b", // qwen2.5:7b recommandé si votre machine le permet
-  temperature: 0,
-  baseUrl: process.env.OLLAMA_URL ?? "http://localhost:11434",
-  numCtx: 8192,
-});
+// const model = new ChatOllama({
+//   model: process.env.OLLAMA_MODEL ?? "qwen2.5:3b", // qwen2.5:7b recommandé si votre machine le permet
+//   temperature: 0,
+//   baseUrl: process.env.OLLAMA_URL ?? "http://localhost:11434",
+//   numCtx: 8192,
+// });
+import { ChatOpenAI } from "@langchain/openai";
 
+const model = new ChatOpenAI({
+  model: process.env.LLM_MODEL,
+  apiKey: process.env.LLM_API_KEY,
+  temperature: 0,
+  configuration: process.env.LLM_BASE_URL ? { baseURL: process.env.LLM_BASE_URL } : undefined,
+});
 const SYSTEM = `Tu es un assistant qui répond à partir de documents PDF fournis par l'utilisateur.
 Règles :
 - Réponds UNIQUEMENT avec les EXTRAITS fournis dans le message. N'invente rien.
