@@ -116,6 +116,7 @@ app.post("/api/ingest", upload.single("file"), async (req, res) => {
 // Erreurs multer (fichier trop gros, mauvais type)
 app.use((err, _req, res, _next) => res.status(400).json({ error: err.message }));
 
+app.get("/health", (req, res) => res.status(200).send("ok"));
 try {
   await connectDb();
   app.listen(3001, () => console.log("🚀 Server running on port 3001"));
